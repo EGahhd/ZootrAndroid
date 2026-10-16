@@ -35,6 +35,10 @@ jobs:
       - name: Locate APK
         run: find . -name "*.apk" -o -name "*.aab"
 
+      - name: Check Installed Build Tools Versions
+        run: |
+          ls $ANDROID_HOME/build-tools/
+
       - name: Sign Release APK
         uses: r0adkll/sign-android-release@v1
         id: sign_app
