@@ -187,4 +187,13 @@ object FileHelper {
 
         return settingsFile?.delete() ?: false
     }
+
+    fun deleteInternalFile(sourceUri: Uri): Boolean {
+        val romFile = File(sourceUri.toString())
+        return if (romFile.isFile) {
+            romFile.delete()
+        } else {
+            false
+        }
+    }
 }

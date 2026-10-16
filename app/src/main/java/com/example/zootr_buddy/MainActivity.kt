@@ -251,6 +251,7 @@ class MainActivity : ComponentActivity() {
                 if (romFile.exists()) {
                     updateLoadingMessage("Copying", false)
                     _files.copyFileToExternal(context, romPath.toUri(), patchedRomDir, "zootr.z64")
+                    _files.deleteInternalFile(romPath.toUri())
                 }
 
                 // copy spoiler to dir
@@ -259,6 +260,7 @@ class MainActivity : ComponentActivity() {
 
                 if (spoilerFile.exists()) {
                     _files.copyFileToExternal(context, spoilerPath.toUri(), patchedRomDir, "zootr-spoiler.json")
+                    _files.deleteInternalFile(spoilerPath.toUri())
                 }
             } catch (e: PyException) {
                 // ADD USER FRIENDLY ERROR HANDLING
