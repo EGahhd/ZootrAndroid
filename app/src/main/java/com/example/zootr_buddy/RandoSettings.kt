@@ -218,7 +218,7 @@ class RandoSettings : ComponentActivity() {
         settingsPanel.removeAllViews()
 
         if (search != "") {
-            val (searchInput, _) = addTextInputVar("search", "Search Settings", search)
+            val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", search)
             settingsPanel.addView(searchInput)
             if (jsonTabs != null) {
                 for (tab in jsonTabs) {
@@ -237,8 +237,8 @@ class RandoSettings : ComponentActivity() {
         } else if (parentTab != null) {
             val settings = parentTab["settings"] as JsonArray<JsonObject>
             if (parentTab["name"] == "rom") {
-                val (settingNameInput, templateDropdownInput) = addTextInputVar("currentSettingsName", "Template Name", currentSettingsName)
-                val (searchInput, _) = addTextInputVar("search", "Search Settings", search)
+                val (settingNameInput, templateDropdownInput) = addTextInputVar("currentSettingsName", "Template Name", "Name your settings template", currentSettingsName)
+                val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", search)
                 settingsPanel.addView(settingNameInput)
                 if (templateDropdownInput != null) {
                     settingsPanel.addView(templateDropdownInput)
@@ -429,8 +429,7 @@ class RandoSettings : ComponentActivity() {
         return inputLayout
     }
 
-    // this is very lazy and I might modify it later so that the add element functions are more re-usable
-    fun addTextInputVar(key: String, title: String, initVal: String): Pair<LinearLayout, LinearLayout?> {
+    fun addTextInputVar(key: String, title: String, hintText: String, initVal: String): Pair<LinearLayout, LinearLayout?> {
         val themedContext = ContextThemeWrapper(this, _globalStore.theme.value)
         val inputLayout = layoutForInput(title, LinearLayout.VERTICAL)
         var templateInputLayout: LinearLayout? = null
@@ -442,7 +441,7 @@ class RandoSettings : ComponentActivity() {
             ).apply {
                 setMargins(16, 16, 16, 16)
             }
-            hint = "Name your settings template"
+            hint = hintText
         }
 
         val textBox = TextInputEditText(textInputLayout.context).apply {
@@ -451,10 +450,8 @@ class RandoSettings : ComponentActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
         }
-        val white = ContextCompat.getColor(this, R.color.white)
-        textBox.setTextColor(white)
-        textBox.setText(initVal)
 
+        textBox.setText(initVal)
         textBox.doAfterTextChanged { text ->
             when(key) {
                 "currentSettingsName" -> currentSettingsName = text.toString()
@@ -506,18 +503,44 @@ class RandoSettings : ComponentActivity() {
                     val outputDir = DocumentFile.fromTreeUri(this, settingsDir.toUri())
                     var settingsFileName = ""
                     for (name in settingsNames) {
-                        if (option.key == name) {
+                        val lowerName = name.lowercase()
+                        val lowerKey = option.key.lowercase()
+                        if (lowerKey == lowerName) {
                             settingsFileName = name
                             break
                         }
 
-                        if (option.key.replace("_", " ") == name) {
+                        if (lowerKey.replace("_", " ") == lowerName) {
                             settingsFileName = name
                             break
                         }
                     }
-                    val settingsString = this.readExternalJsonFile(outputDir!!, settingsFileName)
-                    this.currentSettings = jsonParser.parse(StringBuilder(settingsString!!)) as JsonObject
+
+                    if (outputDir == null) {
+                        Toast.makeText(
+                            this,
+                            "Could not find settings directory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (settingsFileName == "") {
+                        Toast.makeText(
+                            this,
+                            "Could not find settings file",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val settingsString = this.readExternalJsonFile(outputDir, settingsFileName)
+                        if (settingsString == null) {
+                            Toast.makeText(
+                                this,
+                                "Could not read settings file",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            this.currentSettings =
+                                jsonParser.parse(StringBuilder(settingsString)) as JsonObject
+                        }
+                    }
                 }
             }
 

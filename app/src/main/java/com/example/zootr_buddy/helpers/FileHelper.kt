@@ -141,6 +141,7 @@ object FileHelper {
     }
 
     fun Context.readExternalJsonFile(destDir: DocumentFile, fileName: String): String? {
+        Log.i("", "destDir: $destDir, fileName: $fileName")
         val settingsFile = destDir.findFile(fileName) ?: return null
 
         return try {

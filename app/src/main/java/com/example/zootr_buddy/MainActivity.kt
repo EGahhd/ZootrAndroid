@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.documentfile.provider.DocumentFile
+import com.beust.klaxon.JsonObject
 import com.chaquo.python.PyException
 import com.chaquo.python.PyObject
 import com.example.zootr_buddy.helpers.FileHelper.readExternalJsonFile
@@ -70,18 +71,7 @@ class MainActivity : ComponentActivity() {
 
             confirmPopup.setOnConfirmedListener { confirmed ->
                 if (confirmed) {
-                    var settingsFileName = ""
-                    for (name in settingsNames) {
-                        if (selectedSetting == name) {
-                            settingsFileName = name
-                            break
-                        }
-
-                        if (selectedSetting.replace("_", " ") == name) {
-                            settingsFileName = name
-                            break
-                        }
-                    }
+                    val settingsFileName = getSelectedSettingsFile()
                     val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
                     val deleted = _files.deleteExternalFile(outputDir!!, settingsFileName)
 
@@ -152,21 +142,40 @@ class MainActivity : ComponentActivity() {
                 if (defaultSelected) {
                     settings = settingsModule.callAttr("get_settings_from_preset", "test.json")
                 } else {
-                    var settingsFileName = ""
-                    for (name in settingsNames) {
-                        if (selectedSetting == name) {
-                            settingsFileName = name
-                            break
-                        }
+                    val settingsFileName = getSelectedSettingsFile()
+                    if (settingsDir == null) {
+                        Toast.makeText(
+                            this,
+                            "Could not find settings directory",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        throw Exception("Could not find settings directory")
+                    } else if (settingsFileName == "") {
+                        Toast.makeText(
+                            this,
+                            "Could not find settings file",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        throw Exception("Could not find settings file")
+                    } else {
+                        val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
+                        val settingsString = context.readExternalJsonFile(outputDir!!, settingsFileName)
 
-                        if (selectedSetting.replace("_", " ") == name) {
-                            settingsFileName = name
-                            break
+                        Log.i("", "settingsFileName: $settingsFileName")
+                        Log.i("", "outputDir: $outputDir")
+                        Log.i("", "settingsString: $settingsString")
+
+                        if (settingsString == null) {
+                            Toast.makeText(
+                                this,
+                                "Could not read settings file",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            throw Exception("Could not read settings file")
+                        } else {
+                            settings = settingsModule.callAttr("get_settings_from_json_string", settingsString)
                         }
                     }
-                    val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
-                    val settingsString = context.readExternalJsonFile(outputDir!!, settingsFileName)
-                    settings = settingsModule.callAttr("get_settings_from_json_string", settingsString)
                 }
             } catch(e: PyException) {
                 val errorType = _python.getExceptionTypeFromMessage(e.message.toString())
@@ -205,6 +214,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    fun getSelectedSettingsFile(): String {
+        var settingsFileName = ""
+        for (name in settingsNames) {
+            val lowerName = name.lowercase()
+            val lowerKey = selectedSetting.lowercase()
+            if (lowerKey == lowerName) {
+                settingsFileName = name
+                break
+            }
+
+            if (lowerKey.replace("_", " ") == lowerName) {
+                settingsFileName = name
+                break
+            }
+        }
+
+        return settingsFileName
     }
 
     fun handleRomNameInput() {
