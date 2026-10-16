@@ -32,6 +32,9 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease
 
+      - name: Locate APK
+        run: find . -name "*.apk" -o -name "*.aab"
+
       - name: Sign Release APK
         uses: r0adkll/sign-android-release@v1
         id: sign_app
