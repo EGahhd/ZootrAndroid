@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.view.ContextThemeWrapper
@@ -42,6 +41,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.UUID
 import GlobalStore as _globalStore
+import com.example.zootr_buddy.layout_components.showToast
 
 enum class InputTypes(val value: String) {
     Checkbutton("Checkbutton"),
@@ -126,21 +126,38 @@ class RandoSettings : ComponentActivity() {
         val saveButton: Button = findViewById(R.id.saveButton)
         saveButton.setOnClickListener {
             if (currentSettings == null) {
-                Toast.makeText(
+                showToast(
                     this,
-                    "Settings cannot be null",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    "Settings cannot be null"
+                )
             } else if (currentSettingsName.isEmpty()) {
-                Toast.makeText(
+                showToast(
                     this,
-                    "Settings template must have a name",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    "Settings template must have a name"
+                )
             } else {
                 val rootLayout = findViewById<ViewGroup>(android.R.id.content)
                 val loadingOverlay = LoadingOverlay(this)
                 rootLayout.addView(loadingOverlay)
+                /*
+                I'm not entirely sure if this will be necessary. As of right now, my understanding is that if a setting
+                that is meant to be disabled, the randomizer logic just won't acknowledge it anyways.
+                For example, if triforce hunt is disable and triforce pieces is set to 30, it won't look at the 30 anyways
+
+                val settingsJsonString = currentSettings!!.toJsonString(prettyPrint = true)
+                val settingsModule = _python.getModule("Settings.Settings")
+                val settingsListModule = _python.getModule("Settings.SettingsList")
+                val settingsFromString = settingsModule.callAttr("get_settings_dict_from_json_string", settingsJsonString)
+
+                try {
+                    settingsListModule.callAttr("validate_settings", settingsFromString)
+                } catch(e: PyException) {
+                    Log.e("RandoSettings.handleSaveButton", e.message.toString())
+                    rootLayout.removeView(loadingOverlay)
+                    showToast(this, "Settings not valid: ${e.message.toString()}")
+                    return@setOnClickListener
+                }
+                */
 
                 val fileName = "setting-${UUID.randomUUID()}.json"
                 val writtenFile = writeJsonFile(this, currentSettings!!, fileName)!!
@@ -517,25 +534,13 @@ class RandoSettings : ComponentActivity() {
                     }
 
                     if (outputDir == null) {
-                        Toast.makeText(
-                            this,
-                            "Could not find settings directory",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Could not find settings directory")
                     } else if (settingsFileName == "") {
-                        Toast.makeText(
-                            this,
-                            "Could not find settings file",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Could not find settings file")
                     } else {
                         val settingsString = this.readExternalJsonFile(outputDir, settingsFileName)
                         if (settingsString == null) {
-                            Toast.makeText(
-                                this,
-                                "Could not read settings file",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToast(this, "Could not read settings file")
                         } else {
                             this.currentSettings =
                                 jsonParser.parse(StringBuilder(settingsString)) as JsonObject

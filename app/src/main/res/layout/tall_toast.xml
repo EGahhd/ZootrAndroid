@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tall_toast"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="24dp"
+    >
+
+        <TextView
+            android:id="@+id/tall_toast_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/toast_frame"
+            android:elevation="10dp"
+            android:padding="24dp"
+            android:singleLine="false"
+            android:text="toast"
+            android:textColor="?attr/android:textColorPrimary"
+            android:textSize="24sp" />
+
+</FrameLayout>

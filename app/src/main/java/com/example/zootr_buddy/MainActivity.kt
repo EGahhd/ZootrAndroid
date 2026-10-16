@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.view.ContextThemeWrapper
@@ -15,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.documentfile.provider.DocumentFile
-import com.beust.klaxon.JsonObject
 import com.chaquo.python.PyException
 import com.chaquo.python.PyObject
 import com.example.zootr_buddy.helpers.FileHelper.readExternalJsonFile
@@ -31,6 +29,7 @@ import com.example.zootr_buddy.helpers.PreferencesHelper as _prefs
 import com.example.zootr_buddy.helpers.FileHelper as _files
 import com.example.zootr_buddy.helpers.RomHelper as _rom
 import GlobalStore as _globalStore
+import com.example.zootr_buddy.layout_components.showToast
 
 class MainActivity : ComponentActivity() {
     private var outputDir: String? = null
@@ -105,22 +104,12 @@ class MainActivity : ComponentActivity() {
         val configureRandoButton: Button = findViewById(R.id.generateRandoButton)
         configureRandoButton.setOnClickListener {
             if (outputDir == null || outputDir == "") {
-                Toast.makeText(
-                    this,
-                    "Please Select A Path To Save Generated Roms",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                showToast(this, "Please Select A Path To Save Generated Roms")
                 return@setOnClickListener
             }
 
             if (romDir == null || romDir == "") {
-                Toast.makeText(
-                    this,
-                    "Please Select An Ocarina of Time 1.0 NTSC-U / NTSC-J ROM",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                showToast(this, "Please Select An Ocarina of Time 1.0 NTSC-U / NTSC-J ROM")
                 return@setOnClickListener
             }
 
@@ -144,29 +133,17 @@ class MainActivity : ComponentActivity() {
                 } else {
                     val settingsFileName = getSelectedSettingsFile()
                     if (settingsDir == null) {
-                        Toast.makeText(
-                            this,
-                            "Could not find settings directory",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Could not find settings directory")
                         throw Exception("Could not find settings directory")
                     } else if (settingsFileName == "") {
-                        Toast.makeText(
-                            this,
-                            "Could not find settings file",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Could not find settings file")
                         throw Exception("Could not find settings file")
                     } else {
                         val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
                         val settingsString = context.readExternalJsonFile(outputDir!!, settingsFileName)
 
                         if (settingsString == null) {
-                            Toast.makeText(
-                                this,
-                                "Could not read settings file",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToast(this, "Could not read settings file")
                             throw Exception("Could not read settings file")
                         } else {
                             settings = settingsModule.callAttr("get_settings_from_json_string", settingsString)
@@ -177,23 +154,13 @@ class MainActivity : ComponentActivity() {
                 val errorType = _python.getExceptionTypeFromMessage(e.message.toString())
                 when (errorType.first) {
                     "FileNotFoundError" -> {
-                        Toast.makeText(
-                            this,
-                            "Settings preset not found",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Settings preset not found")
                         Log.e("MainActivity.GetSettingsFromPreset", e.message.toString())
-
                         rootLayout.removeView(loadingOverlay)
                     }
                     else -> {
-                        Toast.makeText(
-                            this,
-                            "Unknown Error Occured",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Unknown Error Occured")
                         Log.e("MainActivity.GetSettingsFromPreset", e.message.toString())
-
                         rootLayout.removeView(loadingOverlay)
                     }
                 }
@@ -293,20 +260,12 @@ class MainActivity : ComponentActivity() {
                 val errorType = _python.getExceptionTypeFromMessage(e.message.toString())
                 when (errorType.first) {
                     "FileNotFoundError" -> {
-                        Toast.makeText(
-                            this,
-                            errorType.second,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, errorType.second)
                         Log.e("MainActivity.Main", e.message.toString(), e)
                     }
 
                     else -> {
-                        Toast.makeText(
-                            this,
-                            "Unknown Error Occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(this, "Unknown Error Occurred")
                         Log.e("MainActivity.Main", e.message.toString(), e)
                     }
                 }
@@ -333,11 +292,7 @@ class MainActivity : ComponentActivity() {
                     _python.setEnvVar(pythonEnv, dir)
                 }
             } catch (e: Exception) {
-                Toast.makeText(
-                    this,
-                    "Failed to save directory",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(this, "Failed to save directory")
                 Log.e("MainActivity.handleRomOutputDirectory", e.message.toString())
             }
         }
@@ -372,11 +327,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(
-                    this,
-                    "Failed to save directory",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(this, "Failed to save directory")
                 Log.e("MainActivity.SetDirectory", e.message.toString())
             }
         }
@@ -435,12 +386,6 @@ class MainActivity : ComponentActivity() {
                 val intent = Intent(this, RandoSettings::class.java)
                 startActivity(intent)
             }
-
-            Toast.makeText(
-                this,
-                "Selected $option",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 }

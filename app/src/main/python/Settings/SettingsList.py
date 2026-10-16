@@ -5753,24 +5753,24 @@ def validate_settings(settings_dict: dict[str, Any], *, check_conflicts: bool = 
     for setting, choice in settings_dict.items():
         # Ensure the supplied setting name is a real setting
         if setting not in SettingInfos.setting_infos:
-            raise TypeError('%r is not a valid setting. %s' % (setting, build_close_match(setting, 'setting')))
+            raise TypeError('%r is not a valid setting. %s' % (info.gui_text, build_close_match(setting, 'setting')))
         info = SettingInfos.setting_infos[setting]
         # Ensure the type of the supplied choice is correct
         if type(choice) != info.type:
-            raise TypeError('Supplied choice %r for setting %r is of type %r, expecting %r' % (choice, setting, type(choice).__name__, info.type.__name__))
+            raise TypeError('Supplied choice %r for setting %r is of type %r, expecting %r' % (choice, info.gui_text, type(choice).__name__, info.type.__name__))
         # If setting is a list, must check each element
         if isinstance(choice, list):
             if not info.choice_list:
                 continue
             for element in choice:
                 if element not in info.choice_list:
-                    raise ValueError('%r is not a valid choice for setting %r. %s' % (element, setting, build_close_match(element, 'choice', info.choice_list)))
+                    raise ValueError('%r is not a valid choice for setting %r. %s' % (element, info.gui_text, build_close_match(element, 'choice', info.choice_list)))
         # Ignore dictionary settings such as hint_dist_user
         elif isinstance(choice, dict):
             continue
         # Ensure that the given choice is a valid choice for the setting
         elif info.choice_list and choice not in info.choice_list:
-            raise ValueError('%r is not a valid choice for setting %r. %s' % (choice, setting, build_close_match(choice, 'choice', info.choice_list)))
+            raise ValueError('%r is not a valid choice for setting %r. %s' % (choice, info.gui_text, build_close_match(choice, 'choice', info.choice_list)))
         # Ensure no conflicting settings are specified
         if check_conflicts and info.disable is not None:
             for option, disabling in info.disable.items():
@@ -5792,7 +5792,9 @@ def validate_settings(settings_dict: dict[str, Any], *, check_conflicts: bool = 
 def validate_disabled_setting(settings_dict: dict[str, Any], setting: str, choice, other_setting: str) -> None:
     if other_setting in settings_dict:
         if settings_dict[other_setting] != SettingInfos.setting_infos[other_setting].disabled_default:
-            raise ValueError(f'The {other_setting!r} setting cannot be used since {setting!r} is set to {choice!r}')
+            guiOther = SettingInfos.setting_infos[other_setting].gui_text
+            guiSetting = SettingInfos.setting_infos[setting].gui_text
+            raise ValueError(f'The {guiOther!r} setting cannot be used since {guiSetting!r} is set to {choice!r}')
 
 
 class UnmappedSettingError(Exception):

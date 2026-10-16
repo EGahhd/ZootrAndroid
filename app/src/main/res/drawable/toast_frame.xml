@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- background is material_white with .9 alpha -->
+    <solid android:color="?attr/tooltipBackground" />
+    <corners android:radius="24dp" />
+</shape>

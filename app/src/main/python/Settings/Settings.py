@@ -80,6 +80,10 @@ def get_settings_from_json_string(json_string: str) -> Settings:
     settings_from_file = json.loads(json_string)
     return Settings(settings_from_file)
 
+def get_settings_dict_from_json_string(json_string: str) -> dict[str, Any]:
+    settings_from_file: dict[str, Any] = json.loads(json_string)
+    return settings_from_file
+
 # holds the particular choices for a run's settings
 class Settings(SettingInfos):
     # add the settings as fields, and calculate information based on them
