@@ -7,3 +7,7 @@ Here is the git repo for that: https://github.com/OoTRandomizer/OoT-Randomizer/t
 This application makes use of the python code from the OoT-Randomizer repo, with minor modifications
 
 The first time you generate a randomizer will take the longest as it needs to decompress the rom. After that happens once it caches it on your device so it won't need to happen again.
+
+# Tested/Verified Devices (feel free to make a PR to expand this list after you test)
+- Pixel 11
+- AYN Thor
