@@ -47,70 +47,82 @@
         android:layout_width="match_parent"
         android:layout_height="32dp" />
 
-    <com.example.zootr_buddy.layout_components.FileSelect
-        android:id="@+id/fileSelect"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:buttonText="Select ROM"
-        app:hintText="An Ocarina of Time 1.0 NTSC-U / NTSC-J ROM" />
+        android:layout_height="0dp"
+        android:layout_weight="8">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="32dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.example.zootr_buddy.layout_components.FileSelect
-        android:id="@+id/folderSelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:buttonText="Select Directory"
-        app:hintText="path to save roms" />
+            <com.example.zootr_buddy.layout_components.FileSelect
+                android:id="@+id/fileSelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:buttonText="Select ROM"
+                app:hintText="An Ocarina of Time 1.0 NTSC-U / NTSC-J ROM" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="32dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
 
-    <com.example.zootr_buddy.layout_components.FileSelect
-        android:id="@+id/settingsDirectorySelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:buttonText="Select Directory"
-        app:hintText="path to save settings" />
+            <com.example.zootr_buddy.layout_components.FileSelect
+                android:id="@+id/folderSelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:buttonText="Select Directory"
+                app:hintText="path to save roms" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="32dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
 
-    <Button
-        android:id="@+id/DeleteTemplateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="20dip"
-        android:layout_marginTop="10dip"
-        android:backgroundTint="?attr/android:colorSecondary"
-        android:enabled="false"
-        android:text="Delete Selected Template"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="?attr/secondaryButtonTextColor"
-        android:textSize="24sp" />
+            <com.example.zootr_buddy.layout_components.FileSelect
+                android:id="@+id/settingsDirectorySelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:buttonText="Select Directory"
+                app:hintText="path to save settings" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="32dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
 
-    <Button
-        android:id="@+id/AppSettingsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="20dip"
-        android:layout_marginTop="10dip"
-        android:backgroundTint="?attr/android:colorSecondary"
-        android:text="App Settings"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="?attr/secondaryButtonTextColor"
-        android:textSize="24sp" />
+            <Button
+                android:id="@+id/DeleteTemplateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="20dip"
+                android:layout_marginTop="10dip"
+                android:backgroundTint="?attr/android:colorSecondary"
+                android:enabled="false"
+                android:text="Delete Selected Template"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="?attr/secondaryButtonTextColor"
+                android:textSize="24sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+
+            <Button
+                android:id="@+id/AppSettingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="20dip"
+                android:layout_marginTop="10dip"
+                android:backgroundTint="?attr/android:colorSecondary"
+                android:text="App Settings"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="?attr/secondaryButtonTextColor"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

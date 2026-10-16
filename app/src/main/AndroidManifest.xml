@@ -14,6 +14,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.ZOoTRBuddy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,21 +26,11 @@
             android:name=".RandoSettings"
             android:exported="true"
             android:theme="@style/Theme.ZOoTRBuddy">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AppSettings"
             android:exported="true"
             android:theme="@style/Theme.ZOoTRBuddy">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
