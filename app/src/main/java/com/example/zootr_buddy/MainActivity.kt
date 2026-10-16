@@ -140,7 +140,13 @@ class MainActivity : ComponentActivity() {
                         throw Exception("Could not find settings file")
                     } else {
                         val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
-                        val settingsString = context.readExternalJsonFile(outputDir!!, settingsFileName)
+                        val settingsString = if (romName != "") {
+                            context.readExternalJsonFile(outputDir!!, settingsFileName)
+                                ?.replace("\"user_message\": \"OOTR Android\"", "\"user_message\": \"$romName\"")
+                                ?.replace("\"user_message\": \"Easy Mode\"", "\"user_message\": \"$romName\"")
+                        } else {
+                            context.readExternalJsonFile(outputDir!!, settingsFileName)
+                        }
 
                         if (settingsString == null) {
                             showToast(this, "Could not read settings file")

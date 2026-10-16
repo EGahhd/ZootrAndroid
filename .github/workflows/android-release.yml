@@ -57,11 +57,16 @@ jobs:
           name: zootr-debug
           path: app/build/outputs/apk/py311/debug/*.apk
 
+      - name: Rename Signed APK
+        run: |
+          SIGNED_PATH="app/build/outputs/apk/py311/release/app-py311-release-unsigned-signed.apk"
+          mv $SIGNED_PATH app/build/outputs/apk/py311/release/zootr-release.apk
+
       - name: Upload Signed Artifact
         uses: actions/upload-artifact@v4
         with:
           name: zootr-release
-          path: app/build/outputs/apk/py311/release/*.apk
+          path: app/build/outputs/apk/py311/release/zootr-release.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -72,4 +77,4 @@ jobs:
           prerelease: false
           files: |
             app/build/outputs/apk/py311/debug/*.apk
-            app/build/outputs/apk/py311/release/*.apk
+            app/build/outputs/apk/py311/release/zootr-release.apk
