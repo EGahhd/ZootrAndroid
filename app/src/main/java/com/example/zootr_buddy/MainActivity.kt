@@ -161,10 +161,6 @@ class MainActivity : ComponentActivity() {
                         val outputDir = DocumentFile.fromTreeUri(this, settingsDir!!.toUri())
                         val settingsString = context.readExternalJsonFile(outputDir!!, settingsFileName)
 
-                        Log.i("", "settingsFileName: $settingsFileName")
-                        Log.i("", "outputDir: $outputDir")
-                        Log.i("", "settingsString: $settingsString")
-
                         if (settingsString == null) {
                             Toast.makeText(
                                 this,
