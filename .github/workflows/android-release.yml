@@ -54,13 +54,13 @@ jobs:
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-artifact
+          name: zootr-debug
           path: app/build/outputs/apk/py311/debug/*.apk
 
       - name: Upload Signed Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-artifact
+          name: zootr-release
           path: app/build/outputs/apk/py311/release/*.apk
 
       - name: Create GitHub Release
