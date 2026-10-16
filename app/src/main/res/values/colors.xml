@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_100">#B3B3B3</color>
+    <color name="sea_green_translucent">#128a6b30</color>
+    <!-- Pulled From OOTR Website -->
+    <color name="blue">#052F5F</color>
+    <color name="sea_green">#128A6B</color>
+    <color name="sea_green_light">#06a77d</color>
+    <color name="gray_500">#111111</color>
+    <color name="gray_700">#0A0A0A</color>
+    <color name="gray_900">#2c2c2c</color>
+    <color name="white_100">#d0cfd3</color>
+    <color name="white_300">#9d9ca0</color>
+</resources>

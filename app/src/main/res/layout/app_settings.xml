@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundSecondary"
+    android:backgroundTint="?attr/backgroundSecondary"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/backgroundSecondary"
+        android:clickable="false"
+        android:focusable="false">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:layout_gravity="top"
+            android:background="?attr/backgroundSecondary" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingLeft="12dp"
+            android:paddingTop="60dp"
+            android:text="App Settings"
+            android:textColor="?attr/android:textColorPrimary"
+            android:textSize="32sp" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/appSettingsPanelScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="?attr/android:background">
+
+        <LinearLayout
+            android:id="@+id/appSettingsPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp">
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/CosmeticTextSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cosmetic Color Text?"
+                android:textColor="?attr/android:textColorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ThemeSelectLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="Theme Select"
+                    android:textColor="?attr/android:textColorPrimary" />
+
+                <com.example.zootr_buddy.layout_components.DropdownSelect
+                    android:id="@+id/ThemeSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/appSettingsFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/backgroundSecondary"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="56dp">
+
+        <Button
+            android:id="@+id/appSettingsBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/android:colorPrimary"
+            android:text="Back To Menu"
+            android:textColor="?attr/primaryButtonTextColor" />
+
+    </LinearLayout>
+</LinearLayout>

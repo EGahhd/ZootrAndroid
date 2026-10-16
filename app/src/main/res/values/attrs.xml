@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="backgroundSecondary" format="color" />
+    <attr name="primaryButtonTextColor" format="color" />
+    <attr name="secondaryButtonTextColor" format="color" />
+    <declare-styleable name="FileSelect">
+        <attr name="buttonText" format="string"  />
+        <attr name="hintText" format="string" />
+    </declare-styleable>
+</resources>

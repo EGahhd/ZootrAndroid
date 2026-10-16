@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/android:background">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <com.example.zootr_buddy.layout_components.DropdownSelect
+        android:id="@+id/settingsDropdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dip" />
+
+    <Button
+        android:id="@+id/generateRandoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="20dip"
+        android:layout_marginTop="10dip"
+        android:backgroundTint="?attr/android:colorSecondary"
+        android:text="Randomize"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="?attr/secondaryButtonTextColor"
+        android:textSize="24sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RomNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="?attr/hintTextColor"
+            android:textColor="?attr/android:textColorSecondary"
+            android:hint="name rom (optional)" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <com.example.zootr_buddy.layout_components.FileSelect
+        android:id="@+id/fileSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="Select ROM"
+        app:hintText="An Ocarina of Time 1.0 NTSC-U / NTSC-J ROM" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <com.example.zootr_buddy.layout_components.FileSelect
+        android:id="@+id/folderSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="Select Directory"
+        app:hintText="path to save roms" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <com.example.zootr_buddy.layout_components.FileSelect
+        android:id="@+id/settingsDirectorySelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="Select Directory"
+        app:hintText="path to save settings" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <Button
+        android:id="@+id/DeleteTemplateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="20dip"
+        android:layout_marginTop="10dip"
+        android:backgroundTint="?attr/android:colorSecondary"
+        android:enabled="false"
+        android:text="Delete Selected Template"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="?attr/secondaryButtonTextColor"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <Button
+        android:id="@+id/AppSettingsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="20dip"
+        android:layout_marginTop="10dip"
+        android:backgroundTint="?attr/android:colorSecondary"
+        android:text="App Settings"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="?attr/secondaryButtonTextColor"
+        android:textSize="24sp" />
+
+</LinearLayout>

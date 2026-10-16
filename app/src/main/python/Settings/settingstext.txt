@@ -1,0 +1,259 @@
+# rom
+show_seed_info
+
+# main
+randomize_settings
+logic_rules
+
+# main.open
+open_forest
+open_kakariko
+open_door_of_time
+zora_fountain
+gerudo_fortress
+dungeon_shortcuts_choice
+    dungeon_shortcuts
+bridge
+    bridge_medallions
+    bridge_stones
+    bridge_rewards
+    bridge_tokens
+    bridge_hearts
+trials_random
+trials
+
+# main.world
+starting_age
+mq_dungeons_mode
+    mq_dungeons_specific
+    mq_dungeons_count
+empty_dungeons_mode
+    empty_dungeons_specific
+    empty_dungeons_rewards
+    empty_dungeons_count
+shuffle_interior_entrances
+shuffle_hideout_entrances
+    shuffle_gerudo_fortress_heart_piece
+shuffle_grotto_entrances
+shuffle_dungeon_entrances
+shuffle_bosses
+shuffle_ganon_tower
+shuffle_overworld_entrances
+shuffle_gerudo_valley_river_exit
+owl_drops
+warp_songs
+spawn_positions
+triforce_hunt
+    triforce_count_per_world
+    triforce_goal_per_world
+free_bombchu_drops
+
+# main.shuffle
+shuffle_song_items
+shopsanity
+special_deal_price_distribution
+special_deal_price_min
+special_deal_price_max
+tokensanity
+shuffle_scrubs
+shuffle_child_trade
+adult_trade_shuffle
+adult_trade_start
+shuffle_freestanding_items
+shuffle_pots
+    shuffle_empty_pots
+shuffle_crates
+    shuffle_empty_crates
+shuffle_cows
+shuffle_beehives
+shuffle_wonderitems
+shuffle_kokiri_sword
+shuffle_ocarinas
+shuffle_gerudo_card
+shuffle_beans
+shuffle_expensive_merchants
+shuffle_frog_song_rupees
+shuffle_100_skulltula_rupee
+shuffle_loach_reward
+shuffle_individual_ocarina_notes
+
+# main.shuffle_dungeon_items
+shuffle_dungeon_rewards
+shuffle_map
+shuffle_compass
+enhance_map_compass
+shuffle_smallkeys
+shuffle_hideoutkeys
+shuffle_tcgkeys
+key_rings_choice
+    key_rings
+    keyring_give_bk
+shuffle_bosskeys
+shuffle_silver_rupees
+    silver_rupee_pouches_choice
+    silver_rupee_pouches
+shuffle_ganon_bosskey
+    ganon_bosskey_medallions
+    ganon_bosskey_stones
+    ganon_bosskey_rewards
+    ganon_bosskey_tokens
+    ganon_bosskey_hearts
+
+# detailed_logic
+reachable_locations
+logic_no_night_tokens_without_suns_song
+disabled_locations
+allowed_tricks
+advanced_allowed_tricks
+
+# starting_inventory
+starting_equipment
+starting_inventory
+starting_songs
+add_random_starting_items
+random_starting_items_exclude
+random_starting_items_count
+start_with_consumables
+start_with_rupees
+starting_hearts
+
+# other.timesavers
+skip_reward_from_rauru
+no_escape_sequence
+no_guard_stealth
+no_epona_race
+skip_some_minigame_phases
+complete_mask_quest
+useful_cutscenes
+fast_chests
+scarecrow_behavior
+fast_bunny_hood
+auto_equip_masks
+plant_beans
+easier_fire_arrow_entry
+    fae_torch_count
+ruto_already_f1_jabu
+fast_shadow_boat
+chicken_count_random
+chicken_count
+big_poe_count_random
+big_poe_count
+
+# other.hints_and_information
+clearer_hints
+hints
+hint_dist
+    bingosync_url
+misc_hints
+correct_chest_appearances
+    chest_textures_specific
+    soa_unlocks_chest_texture
+    minor_items_as_major_chest
+invisible_chests
+correct_potcrate_appearances
+    potcrate_textures_specific
+    soa_unlocks_potcrate_texture
+key_appearance_match_dungeon
+
+# other.item_pool
+item_pool_value
+junk_ice_traps
+    custom_ice_trap_percent
+    custom_ice_trap_count
+ice_trap_appearance
+
+# other.gameplay_changes
+ocarina_songs
+text_shuffle
+damage_multiplier
+deadly_bonks
+starting_tod
+blue_fire_arrows
+fix_broken_drops
+tcg_requires_lens
+no_collectible_hearts
+one_item_per_dungeon
+
+# cosmetics
+default_targeting
+display_dpad
+dpad_dungeon_menu
+correct_model_colors
+randomize_all_cosmetics
+uninvert_y_axis_in_first_person_camera
+input_viewer
+
+# cosmetics.equipment_colors
+kokiri_color
+goron_color
+zora_color
+silver_gauntlets_color
+golden_gauntlets_color
+mirror_shield_frame_color
+
+# cosmetics.ui_colors
+heart_color
+magic_color
+a_button_color
+b_button_color
+c_button_color
+start_button_color
+
+# cosmetics.misc_colors
+navi_color_default_inner
+navi_color_default_outer
+navi_color_enemy_inner
+navi_color_enemy_outer
+navi_color_npc_inner
+navi_color_npc_outer
+navi_color_prop_inner
+navi_color_prop_outer
+bombchu_trail_color_inner
+bombchu_trail_color_outer
+boomerang_trail_color_inner
+boomerang_trail_color_outer
+sword_trail_color_inner
+sword_trail_color_outer
+sword_trail_duration
+
+# sfx.general
+randomize_all_sfx
+disable_battle_music
+speedup_music_for_last_triforce_piece
+slowdown_music_when_lowhp
+
+# sfx.music
+background_music
+display_custom_song_names
+fanfares
+    ocarina_fanfares
+credits_music
+
+# sfx.items
+sfx_ocarina
+sfx_bombchu_move
+sfx_hover_boots
+sfx_iron_boots
+sfx_boomerang_throw
+sfx_hookshot_chain
+sfx_arrow_shot
+sfx_slingshot_shot
+sfx_magic_arrow_shot
+sfx_explosion
+
+# sfx.voices
+sfx_link_adult
+sfx_link_child
+sfx_navi_overworld
+sfx_navi_enemy
+sfx_horse_neigh
+sfx_cucco
+
+# sfx.misc_sound_effects
+sfx_daybreak
+sfx_nightfall
+sfx_menu_cursor
+sfx_menu_select
+sfx_low_hp
+sfx_silver_rupee
+sfx_get_small_item

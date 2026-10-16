@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchboxlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/AddColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/AddAllButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/android:colorPrimary"
+            android:textColor="?attr/primaryButtonTextColor"
+            android:text="Add All" />
+
+        <RadioGroup
+            android:id="@+id/SelectedFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/ShowRemovedButton">
+
+            <RadioButton
+                android:id="@+id/ShowAllButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show All"
+                android:textColor="?attr/android:textColorPrimary" />
+
+            <RadioButton
+                android:id="@+id/ShowSelectedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show Selected"
+                android:textColor="?attr/android:textColorPrimary" />
+
+            <RadioButton
+                android:id="@+id/ShowRemovedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show Removed"
+                android:textColor="?attr/android:textColorPrimary" />
+        </RadioGroup>
+
+        <com.example.zootr_buddy.layout_components.DropdownSelect
+            android:id="@+id/AddFilterDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.example.zootr_buddy.layout_components.DropdownSelect>
+
+        <EditText
+            android:id="@+id/AddSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Search"
+            android:inputType="text"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:nestedScrollingEnabled="true"
+        android:scrollbarSize="12dp"
+        android:scrollbarStyle="insideInset">
+
+        <TableLayout
+            android:id="@+id/AddTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+</LinearLayout>

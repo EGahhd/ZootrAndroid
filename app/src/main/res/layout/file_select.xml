@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/PathInput"
+        android:layout_width="237dp"
+        android:layout_height="wrap_content"
+        android:hint="hint"
+        android:textColor="?attr/android:textColorSecondary"
+        android:textColorHint="?attr/hintTextColor" />
+
+    <Space
+        android:layout_width="20dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/PathButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?attr/android:colorPrimary"
+        android:text="Select Directory"
+        android:textColor="?attr/primaryButtonTextColor" />
+
+</LinearLayout>
