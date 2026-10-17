@@ -45,7 +45,7 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/android:colorPrimary"
+            android:background="@drawable/focus_outline_primary"
             android:text="Back To Menu"
             android:textColor="?attr/primaryButtonTextColor" />
 
@@ -58,7 +58,7 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/android:colorPrimary"
+            android:background="@drawable/focus_outline_primary"
             android:text="Save Settings"
             android:textColor="?attr/primaryButtonTextColor" />
     </LinearLayout>

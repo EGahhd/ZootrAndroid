@@ -6,13 +6,19 @@
     android:orientation="horizontal"
     >
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/focus_outline_transparent">
     <com.google.android.material.textfield.TextInputEditText
+        android:focusable="false"
         android:id="@+id/PathInput"
         android:layout_width="237dp"
         android:layout_height="wrap_content"
         android:hint="hint"
         android:textColor="?attr/android:textColorSecondary"
         android:textColorHint="?attr/hintTextColor" />
+    </FrameLayout>
 
     <Space
         android:layout_width="20dip"
@@ -24,7 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="?attr/android:colorPrimary"
+        android:radius="8dp"
+        android:background="@drawable/focus_outline_primary"
         android:text="Select Directory"
         android:textColor="?attr/primaryButtonTextColor" />
 

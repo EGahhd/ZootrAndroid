@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.zootr_buddy.R
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 
@@ -25,6 +26,7 @@ class ConfirmationPopup: LinearLayout {
     private var titleView: TextView? = null
 
     init {
+        descendantFocusability = FOCUS_AFTER_DESCENDANTS
         inflate(context, R.layout.confirmation_popup, this)
 
         titleView = findViewById<TextView>(R.id.confirmationTitle)
@@ -39,6 +41,30 @@ class ConfirmationPopup: LinearLayout {
         acceptButton.setOnClickListener {
             confirm(true)
         }
+
+        cancelButton.postDelayed({
+            cancelButton.requestFocus()
+        }, 200)
+    }
+
+    override fun focusSearch(focused: View?, direction: Int): View? {
+        val nextFocus = super.focusSearch(focused, direction)
+        if (nextFocus == null || !isAncestorOf(nextFocus)) {
+            return focused
+        }
+
+        return nextFocus
+    }
+
+    private fun isAncestorOf(view: View): Boolean {
+        var parent = view.parent
+        while (parent != null) {
+            if (parent == this) {
+                return true
+            }
+            parent = parent.parent
+        }
+        return false
     }
 
     fun setConfirmationTitle(title: String) {
