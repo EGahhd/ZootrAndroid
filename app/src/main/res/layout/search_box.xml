@@ -17,7 +17,7 @@
             android:id="@+id/AddAllButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/android:colorPrimary"
+            android:background="@drawable/focus_outline_primary"
             android:textColor="?attr/primaryButtonTextColor"
             android:text="Add All" />
 

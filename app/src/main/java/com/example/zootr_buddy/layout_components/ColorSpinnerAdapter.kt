@@ -17,13 +17,6 @@ class ColorSpinnerAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = super.getView(position, convertView, parent) as TextView
-//        val textColorRes = TypedValue()
-//        var textColor: Int = Color.WHITE
-//        // Resolve the attribute from the current context's theme
-//        if (context.theme.resolveAttribute(attr.textColorPrimary, textColorRes, true)) {
-//            textColor = textColorRes.data
-//        }
-//        view.setTextColor(textColor)
         return view
     }
 

@@ -19,6 +19,7 @@
         <item name="android:textColorHint">@color/gray_100</item>
         <item name="android:dropDownListViewStyle">@style/DropdownWithHorizontalDivider</item>
         <item name="tooltipBackground">@color/gray_700</item>
+        <item name="focusOutline">@color/sea_green_light</item>
     </style>
     <style name="Theme.ZOoTRBuddy.Light" parent="Theme.Material3.Light">
         <item name="hintTextColor">@color/gray_500</item>
@@ -35,5 +36,6 @@
         <item name="android:textColorHint">@color/gray_100</item>
         <item name="android:dropDownListViewStyle">@style/DropdownWithHorizontalDivider</item>
         <item name="tooltipBackground">@color/white_100</item>
+        <item name="focusOutline">@color/sea_green</item>
     </style>
 </resources>

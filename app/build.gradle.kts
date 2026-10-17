@@ -13,6 +13,7 @@ android {
     }
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId = "com.example.zootr_buddy"
         minSdk = 31
         targetSdk = 36

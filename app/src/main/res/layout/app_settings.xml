@@ -50,6 +50,7 @@
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/CosmeticTextSwitch"
+                android:background="@drawable/focus_outline_transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cosmetic Color Text?"
@@ -92,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="?attr/android:colorPrimary"
+            android:background="@drawable/focus_outline_primary"
             android:text="Back To Menu"
             android:textColor="?attr/primaryButtonTextColor" />
 
