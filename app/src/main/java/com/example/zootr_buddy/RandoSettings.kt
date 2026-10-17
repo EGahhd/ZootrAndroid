@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
@@ -54,15 +55,11 @@ enum class InputTypes(val value: String) {
 }
 
 class RandoSettings : ComponentActivity() {
-    var search: String = ""
+    private val viewModel: RandoSettingsViewModel by viewModels()
     private val searchTypingHandler = Handler(Looper.getMainLooper())
     private var searchTypingRunnable: Runnable? = null
     private val searchDebounceDelay = 500L
 
-    var selectedTab: String = ""
-    var currentSettings: JsonObject? = null
-    var currentSettingsName: String = ""
-    var overwriteFile: Boolean = false
     val jsonParser = Parser.default()
     val dependentFields = arrayOf<String>(
         "dungeon_shortcuts_choice",
@@ -94,11 +91,16 @@ class RandoSettings : ComponentActivity() {
         setContentView (R.layout.rando_settings)
         val tabHeader: TabLayout = findViewById(R.id.tabHeader)
 
+        var selectedTab: TabLayout.Tab? = null
+        val selectedTabName = viewModel.selectedTab
         for (tab in tabs) {
             val selectableTab = tabHeader.newTab()
             selectableTab.setTag(tab.first)
             selectableTab.text = tab.second
             tabHeader.addTab(selectableTab)
+            if (selectedTabName == tab.first) {
+                selectedTab = selectableTab
+            }
         }
 
         populateDefaultSettings()
@@ -106,7 +108,11 @@ class RandoSettings : ComponentActivity() {
 
         this.handleBackButton()
         this.handleSaveButton()
+
         this.handleTabSwitch(tabHeader)
+        if (selectedTab != null) {
+            tabHeader.selectTab(selectedTab)
+        }
     }
 
     override fun onDestroy() {
@@ -125,12 +131,12 @@ class RandoSettings : ComponentActivity() {
     fun handleSaveButton() {
         val saveButton: Button = findViewById(R.id.saveButton)
         saveButton.setOnClickListener {
-            if (currentSettings == null) {
+            if (viewModel.currentSettings == null) {
                 showToast(
                     this,
                     "Settings cannot be null"
                 )
-            } else if (currentSettingsName.isEmpty()) {
+            } else if (viewModel.currentSettingsName.isEmpty()) {
                 showToast(
                     this,
                     "Settings template must have a name"
@@ -160,10 +166,10 @@ class RandoSettings : ComponentActivity() {
                 */
 
                 val fileName = "setting-${UUID.randomUUID()}.json"
-                val writtenFile = writeJsonFile(this, currentSettings!!, fileName)!!
+                val writtenFile = writeJsonFile(this, viewModel.currentSettings!!, fileName)!!
                 val settingsDirectory = _prefs.getPref<String>("settings_dir")!!.toUri()
                 val outputDir = DocumentFile.fromTreeUri(this, settingsDirectory)
-                copyFileToExternal(this, writtenFile, outputDir!!, "${currentSettingsName}.json", "application/json", overwriteFile)
+                copyFileToExternal(this, writtenFile, outputDir!!, "${viewModel.currentSettingsName}.json", "application/json", viewModel.overwriteFile)
 
                 rootLayout.removeView(loadingOverlay)
                 val intent = Intent(this, MainActivity::class.java)
@@ -189,7 +195,7 @@ class RandoSettings : ComponentActivity() {
     fun handleTabSwitch(tabHeader: TabLayout) {
         tabHeader.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                selectedTab = tab?.tag.toString()
+                viewModel.selectedTab = tab?.tag.toString()
                 populateSettingsUI(tab?.tag.toString())
             }
 
@@ -204,14 +210,16 @@ class RandoSettings : ComponentActivity() {
     }
 
     fun populateDefaultSettings() {
-        var settingsJsonString: String = ""
-        try {
-            settingsJsonString = readJsonFile("default_settings.json") ?: ""
-        } catch (e: Exception) {
-            Log.e("RandoSettings.populateDefaultSettings", e.message ?: "")
-            e.printStackTrace()
+        if (viewModel.currentSettings == null) {
+            var settingsJsonString: String = ""
+            try {
+                settingsJsonString = readJsonFile("default_settings.json") ?: ""
+            } catch (e: Exception) {
+                Log.e("RandoSettings.populateDefaultSettings", e.message ?: "")
+                e.printStackTrace()
+            }
+            viewModel.currentSettings = jsonParser.parse(StringBuilder(settingsJsonString)) as JsonObject
         }
-        this.currentSettings = jsonParser.parse(StringBuilder(settingsJsonString)) as JsonObject
     }
 
     fun populateSettingsUI(tabName: String) {
@@ -219,7 +227,7 @@ class RandoSettings : ComponentActivity() {
         var parentTab: JsonObject? = null
         val childTabs = mutableListOf<JsonObject>()
 
-        if (jsonTabs != null && search == "") {
+        if (jsonTabs != null && viewModel.search == "") {
             for (tab in jsonTabs) {
                 if (tab["name"] == tabName) {
                     parentTab = tab
@@ -234,8 +242,8 @@ class RandoSettings : ComponentActivity() {
         val settingsPanel: LinearLayout = findViewById(R.id.settingsPanel)
         settingsPanel.removeAllViews()
 
-        if (search != "") {
-            val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", search)
+        if (viewModel.search != "") {
+            val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", viewModel.search)
             settingsPanel.addView(searchInput)
             if (jsonTabs != null) {
                 for (tab in jsonTabs) {
@@ -243,7 +251,7 @@ class RandoSettings : ComponentActivity() {
                     (settings).forEach { setting ->
                         val key = setting["key"].toString().lowercase()
                         val guiText = setting["gui_text"].toString().lowercase()
-                        val formattedSearch = search.lowercase()
+                        val formattedSearch = viewModel.search.lowercase()
                         if (key.contains(formattedSearch) || guiText.contains(formattedSearch))
                         {
                             addSettingElem(setting, settingsPanel)
@@ -254,8 +262,8 @@ class RandoSettings : ComponentActivity() {
         } else if (parentTab != null) {
             val settings = parentTab["settings"] as JsonArray<JsonObject>
             if (parentTab["name"] == "rom") {
-                val (settingNameInput, templateDropdownInput) = addTextInputVar("currentSettingsName", "Template Name", "Name your settings template", currentSettingsName)
-                val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", search)
+                val (settingNameInput, templateDropdownInput) = addTextInputVar("currentSettingsName", "Template Name", "Name your settings template", viewModel.currentSettingsName)
+                val (searchInput, _) = addTextInputVar("search", "Search Settings", "Search key and titles", viewModel.search)
                 settingsPanel.addView(settingNameInput)
                 if (templateDropdownInput != null) {
                     settingsPanel.addView(templateDropdownInput)
@@ -297,7 +305,7 @@ class RandoSettings : ComponentActivity() {
         }
 
         val key = setting["key"].toString()
-        val currentValue = currentSettings?.get(key).toString()
+        val currentValue = viewModel.currentSettings?.get(key).toString()
 
         val settingsToEnableList = disableObj.keys.filter { it != currentValue } as ArrayList<String?>?
         val settingsPanel: LinearLayout = findViewById(R.id.settingsPanel)
@@ -377,7 +385,7 @@ class RandoSettings : ComponentActivity() {
 
         val dependentOnValue: String = dependentOnObj["parent_value"].toString()
         val dependentOnValues = dependentOnValue.split(',')
-        val currentVal = currentSettings!![dependentOn]
+        val currentVal = viewModel.currentSettings!![dependentOn]
 
         var shouldDisplay = false
         dependentOnValues.forEach {
@@ -400,7 +408,7 @@ class RandoSettings : ComponentActivity() {
         val type = setting["type"].toString()
         val key = setting["key"].toString()
         val guiText = setting["gui_text"].toString()
-        val currentVal = currentSettings?.get(key).toString()
+        val currentVal = viewModel.currentSettings?.get(key).toString()
         val settingView: LinearLayout? = when(type) {
             InputTypes.Checkbutton.value -> addCheckButton(key, guiText, currentVal, setting)
             InputTypes.Combobox.value -> addDropdown(key, guiText, currentVal, setting)
@@ -434,7 +442,7 @@ class RandoSettings : ComponentActivity() {
         textBox.setText(initVal)
 
         textBox.doAfterTextChanged { text ->
-            currentSettings?.set(key, text.toString())
+            viewModel.currentSettings?.set(key, text.toString())
             updateDependentSettings(key)
             disableSettings(setting)
         }
@@ -471,12 +479,12 @@ class RandoSettings : ComponentActivity() {
         textBox.setText(initVal)
         textBox.doAfterTextChanged { text ->
             when(key) {
-                "currentSettingsName" -> currentSettingsName = text.toString()
+                "currentSettingsName" -> viewModel.currentSettingsName = text.toString()
                 "search" -> {
                     searchTypingRunnable?.let { searchTypingHandler.removeCallbacks(it) }
                     searchTypingRunnable = Runnable {
-                        search = text.toString()
-                        val tab = if (selectedTab == "") "rom" else selectedTab
+                        viewModel.search = text.toString()
+                        val tab = if (viewModel.selectedTab == "") "rom" else viewModel.selectedTab
                         populateSettingsUI(tab)
                     }
                     searchTypingHandler.postDelayed(searchTypingRunnable!!, searchDebounceDelay)
@@ -542,7 +550,7 @@ class RandoSettings : ComponentActivity() {
                         if (settingsString == null) {
                             showToast(this, "Could not read settings file")
                         } else {
-                            this.currentSettings =
+                            viewModel.currentSettings =
                                 jsonParser.parse(StringBuilder(settingsString)) as JsonObject
                         }
                     }
@@ -560,12 +568,12 @@ class RandoSettings : ComponentActivity() {
         val themedContext = ContextThemeWrapper(this, _globalStore.theme.value)
         val inputLayout = layoutForInput(null, LinearLayout.HORIZONTAL)
 
-        val initialValue: Boolean = overwriteFile
+        val initialValue: Boolean = viewModel.overwriteFile
         val checkBox = PrimaryCheckbox(themedContext)
         checkBox.setText("Overwrite Settings Template?")
         checkBox.setIsChecked(initialValue)
         checkBox.setOnCheckedListener { bool ->
-            overwriteFile = bool
+            viewModel.overwriteFile = bool
         }
 
         inputLayout.addView(checkBox)
@@ -584,7 +592,7 @@ class RandoSettings : ComponentActivity() {
         checkBox.setText(title)
         checkBox.setIsChecked(initialValue)
         checkBox.setOnCheckedListener { bool ->
-            currentSettings?.set(key, bool)
+            viewModel.currentSettings?.set(key, bool)
             updateDependentSettings(key)
             disableSettings(setting)
         }
@@ -641,7 +649,7 @@ class RandoSettings : ComponentActivity() {
         dropdown.setOptions(options.toTypedArray(), isColor = colorKeys.contains(key))
 
         dropdown.setOnOptionSelectedListener { option ->
-            currentSettings?.set(key, if (isInt) option.key.toInt() else option.key)
+            viewModel.currentSettings?.set(key, if (isInt) option.key.toInt() else option.key)
             updateDependentSettings(key)
             disableSettings(setting)
         }
@@ -662,7 +670,7 @@ class RandoSettings : ComponentActivity() {
         val dropdown = MultiSelect(themedContext)
         val choices = setting["choices"] as JsonObject
         val options: MutableList<MultiSelectOption> = mutableListOf()
-        val defaultVals = currentSettings?.get(key) as List<*>
+        val defaultVals = viewModel.currentSettings?.get(key) as List<*>
 
         choices.keys.forEach { key ->
             val defaults = defaultVals.filter { it == key }
@@ -679,7 +687,7 @@ class RandoSettings : ComponentActivity() {
 
         dropdown.setOnOptionSelectedListener { options ->
             val formattedOptions: List<String> = options.mapNotNull { (if (it.key != "") it.key else null) }
-            currentSettings?.set(key, formattedOptions)
+            viewModel.currentSettings?.set(key, formattedOptions)
             updateDependentSettings(key)
             disableSettings(setting)
         }
@@ -698,7 +706,7 @@ class RandoSettings : ComponentActivity() {
         val guiParams = setting["gui_params"] as JsonObject
         val filterData = guiParams["filterdata"] as? JsonObject
         val options: MutableList<MultiSelectOption> = mutableListOf()
-        val defaultVals = currentSettings?.get(key) as List<*>
+        val defaultVals = viewModel.currentSettings?.get(key) as List<*>
         choices.keys.forEach { key ->
             val defaults = defaultVals.filter { it == key }
             options.add(
@@ -715,7 +723,7 @@ class RandoSettings : ComponentActivity() {
 
         searchBox.setOnOptionSelectedListener { options ->
             val formattedOptions: List<String> = options.mapNotNull { (if (it.key != "") it.key else null) }
-            currentSettings?.set(key, formattedOptions)
+            viewModel.currentSettings?.set(key, formattedOptions)
             updateDependentSettings(key)
             disableSettings(setting)
         }
@@ -738,7 +746,7 @@ class RandoSettings : ComponentActivity() {
         scale.labelBehavior = LabelFormatter.LABEL_VISIBLE
 
         scale.addOnChangeListener { slider, value, bool ->
-            currentSettings?.set(key, value.toInt())
+            viewModel.currentSettings?.set(key, value.toInt())
         }
         inputLayout.addView(scale)
 
