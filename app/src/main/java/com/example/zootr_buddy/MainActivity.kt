@@ -377,6 +377,10 @@ class MainActivity : ComponentActivity() {
         val settingsDropdown: DropdownSelect = findViewById(R.id.settingsDropdown)
 
         settingsDropdown.setOptions(options)
+        val defaultSettingKey = _prefs.getPref<String>("defaultSetting")
+        if (!(defaultSettingKey == null || defaultSettingKey == "" || defaultSettingKey.isEmpty())) {
+            settingsDropdown.setDefaultValue(defaultSettingKey)
+        }
         settingsDropdown.setOnOptionSelectedListener { option ->
             this.selectedSetting = option.key
 
