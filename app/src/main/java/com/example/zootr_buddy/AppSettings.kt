@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -13,9 +11,11 @@ import androidx.core.net.toUri
 import com.example.zootr_buddy.helpers.FileHelper as _files
 import com.example.zootr_buddy.layout_components.DropdownOption
 import com.example.zootr_buddy.layout_components.DropdownSelect
+import com.example.zootr_buddy.layout_components.showToast
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.example.zootr_buddy.helpers.PreferencesHelper as _prefs
 import GlobalStore as _globalStore
+import com.example.zootr_buddy.layout_components.toggleDisabled
 
 private val themeOptions: Array<DropdownOption> = arrayOf(
     DropdownOption("dark", "Dark"),
@@ -35,7 +35,12 @@ class AppSettings : ComponentActivity() {
         this.handleBackButton()
         this.handleCosmeticTextSwitch()
         this.handleThemeSelect()
-        this.populateSettingsList(applicationContext)
+        try {
+            this.populateSettingsList(applicationContext)
+        } catch (e: Exception) {
+            Log.e("AppSettings.populateSettingsList", e.message.toString())
+            showToast(this, "Error Getting Settings List, Try Again")
+        }
         this.handleRandoSettingsSelect()
     }
 
@@ -78,13 +83,16 @@ class AppSettings : ComponentActivity() {
     }
 
     fun populateSettingsList(context: Context) {
-        val settingsDir = _globalStore.settingsDirectory.value
+        val settingsDir = if (_globalStore.settingsDirectory.value == "") _prefs.getPref<String>("settings_dir") ?: "" else _globalStore.settingsDirectory.value
         var options: Array<DropdownOption>? = null
         val defaultOption = DropdownOption("default", "default")
         val noneOption = DropdownOption("none", "none")
-        settingsNames = _files.readDirectoryList(context, settingsDir.toUri(), ".json")
         val settingsOptions = mutableListOf<DropdownOption>()
         settingsDropdown = findViewById(R.id.FavoriteSettingSelect)
+
+        if (settingsDir != "") {
+            settingsNames = _files.readDirectoryList(context, settingsDir.toUri(), ".json")
+        }
 
         if (settingsDropdown != null) {
             settingsNames.forEach { name ->
@@ -113,24 +121,6 @@ class AppSettings : ComponentActivity() {
             }
             settingsDropdown!!.setOnOptionSelectedListener { option ->
                 _prefs.setPref("defaultSetting", option.key)
-            }
-        }
-    }
-
-    private fun View.toggleDisabled(disabled: Boolean? = null) {
-        if (disabled != null && isEnabled == !disabled) {
-            return
-        }
-
-        isEnabled = if (disabled == null) {
-            !isEnabled
-        } else {
-            !disabled
-        }
-
-        if (this is ViewGroup) {
-            for (index in 0 until childCount) {
-                getChildAt(index).toggleDisabled(disabled)
             }
         }
     }

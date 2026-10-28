@@ -391,7 +391,8 @@ class MainActivity : ComponentActivity() {
             } else {
                 this.defaultSelected = false
                 deleteTemplateButton!!.isEnabled = true
-                deleteTemplateButton!!.backgroundTintList = ContextCompat.getColorStateList(context, R.color.blue)
+                val appSettingsButton = findViewById<Button>(R.id.AppSettingsButton)
+                deleteTemplateButton!!.backgroundTintList = appSettingsButton.backgroundTintList
             }
 
             if (option.key == "create_new") {
