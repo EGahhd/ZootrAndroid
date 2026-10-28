@@ -1,11 +1,16 @@
 package com.example.zootr_buddy
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.core.net.toUri
+import com.example.zootr_buddy.helpers.FileHelper as _files
 import com.example.zootr_buddy.layout_components.DropdownOption
 import com.example.zootr_buddy.layout_components.DropdownSelect
 import com.google.android.material.materialswitch.MaterialSwitch
@@ -17,6 +22,9 @@ private val themeOptions: Array<DropdownOption> = arrayOf(
     DropdownOption("light", "Light"),
 )
 
+private var settingsNames: Array<String> = arrayOf()
+private var settingsDropdown: DropdownSelect? = null
+
 class AppSettings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(_globalStore.determineTheme())
@@ -27,6 +35,8 @@ class AppSettings : ComponentActivity() {
         this.handleBackButton()
         this.handleCosmeticTextSwitch()
         this.handleThemeSelect()
+        this.populateSettingsList(applicationContext)
+        this.handleRandoSettingsSelect()
     }
 
     fun handleBackButton() {
@@ -63,6 +73,64 @@ class AppSettings : ComponentActivity() {
                 _globalStore.refresh(applicationContext, _globalStore.settingsDirectory.value)
                 setTheme(_globalStore.determineTheme())
                 recreate()
+            }
+        }
+    }
+
+    fun populateSettingsList(context: Context) {
+        val settingsDir = _globalStore.settingsDirectory.value
+        var options: Array<DropdownOption>? = null
+        val defaultOption = DropdownOption("default", "default")
+        val noneOption = DropdownOption("none", "none")
+        settingsNames = _files.readDirectoryList(context, settingsDir.toUri(), ".json")
+        val settingsOptions = mutableListOf<DropdownOption>()
+        settingsDropdown = findViewById(R.id.FavoriteSettingSelect)
+
+        if (settingsDropdown != null) {
+            settingsNames.forEach { name ->
+                settingsOptions.add(DropdownOption(
+                    name.lowercase().replace(" ",
+                        "_"
+                    ), name.replace(".json", ""))
+                )
+            }
+
+            if (settingsOptions.count() > 0) {
+                options = arrayOf(defaultOption, *settingsOptions.toTypedArray())
+            } else {
+                options = arrayOf(noneOption)
+                settingsDropdown!!.toggleDisabled(true)
+            }
+            settingsDropdown!!.setOptions(options)
+        }
+    }
+
+    fun handleRandoSettingsSelect() {
+        if (settingsDropdown != null) {
+            val defaultSettingKey = _prefs.getPref<String>("defaultSetting")
+            if (!(defaultSettingKey == null || defaultSettingKey == "" || defaultSettingKey.isEmpty())) {
+                settingsDropdown!!.setDefaultValue(defaultSettingKey)
+            }
+            settingsDropdown!!.setOnOptionSelectedListener { option ->
+                _prefs.setPref("defaultSetting", option.key)
+            }
+        }
+    }
+
+    private fun View.toggleDisabled(disabled: Boolean? = null) {
+        if (disabled != null && isEnabled == !disabled) {
+            return
+        }
+
+        isEnabled = if (disabled == null) {
+            !isEnabled
+        } else {
+            !disabled
+        }
+
+        if (this is ViewGroup) {
+            for (index in 0 until childCount) {
+                getChildAt(index).toggleDisabled(disabled)
             }
         }
     }
