@@ -3,6 +3,7 @@ package com.example.zootr_buddy
 import com.example.zootr_buddy.layout_components.LoadingOverlay
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -43,6 +44,8 @@ import com.google.android.material.textfield.TextInputLayout
 import java.util.UUID
 import GlobalStore as _globalStore
 import com.example.zootr_buddy.layout_components.showToast
+import com.example.zootr_buddy.layout_components.setTextColorBasedOnContrast
+import com.example.zootr_buddy.layout_components.toggleDisabled
 
 enum class InputTypes(val value: String) {
     Checkbutton("Checkbutton"),
@@ -475,6 +478,8 @@ class RandoSettings : ComponentActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
         }
+        val settingsPanel: LinearLayout = findViewById(R.id.settingsPanel)
+        textBox.setTextColorBasedOnContrast((settingsPanel.background as ColorDrawable).color)
 
         textBox.setText(initVal)
         textBox.doAfterTextChanged { text ->
@@ -511,7 +516,7 @@ class RandoSettings : ComponentActivity() {
             val settingsOptions = mutableListOf<DropdownOption>()
             settingsNames.forEach { name ->
                 settingsOptions.add(DropdownOption(
-                    name.lowercase().replace(" ",
+                    name.replace(" ",
                         "_"
                     ), name.replace(".json", ""))
                 )
@@ -775,23 +780,5 @@ class RandoSettings : ComponentActivity() {
         }
 
         return inputLayout
-    }
-
-    private fun View.toggleDisabled(disabled: Boolean? = null) {
-        if (disabled != null && isEnabled == !disabled) {
-            return
-        }
-
-        isEnabled = if (disabled == null) {
-            !isEnabled
-        } else {
-            !disabled
-        }
-
-        if (this is ViewGroup) {
-            for (index in 0 until childCount) {
-                getChildAt(index).toggleDisabled(disabled)
-            }
-        }
     }
 }
