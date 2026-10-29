@@ -5,6 +5,11 @@
     <attr name="secondaryButtonTextColor" format="color" />
     <attr name="tooltipBackground" format="color" />
     <attr name="focusOutline" format="color" />
+    <attr name="elevationColor1" format="color" />
+    <attr name="elevationColor2" format="color" />
+    <attr name="elevationColor3" format="color" />
+    <attr name="elevationColor4" format="color" />
+    <attr name="elevationColor5" format="color" />
     <declare-styleable name="FileSelect">
         <attr name="buttonText" format="string"  />
         <attr name="hintText" format="string" />

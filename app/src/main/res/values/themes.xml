@@ -20,6 +20,11 @@
         <item name="android:dropDownListViewStyle">@style/DropdownWithHorizontalDivider</item>
         <item name="tooltipBackground">@color/gray_700</item>
         <item name="focusOutline">@color/sea_green_light</item>
+        <item name="elevationColor5">#090909</item>
+        <item name="elevationColor4">#1a1a1a</item>
+        <item name="elevationColor3">#313131</item>
+        <item name="elevationColor2">#484848</item>
+        <item name="elevationColor1">#5d5d5d</item>
     </style>
     <style name="Theme.ZOoTRBuddy.Light" parent="Theme.Material3.Light">
         <item name="hintTextColor">@color/gray_500</item>
@@ -37,5 +42,10 @@
         <item name="android:dropDownListViewStyle">@style/DropdownWithHorizontalDivider</item>
         <item name="tooltipBackground">@color/white_100</item>
         <item name="focusOutline">@color/sea_green</item>
+        <item name="elevationColor5">#444444</item>
+        <item name="elevationColor4">#555555</item>
+        <item name="elevationColor3">#666666</item>
+        <item name="elevationColor2">#777777</item>
+        <item name="elevationColor1">#878787</item>
     </style>
 </resources>
