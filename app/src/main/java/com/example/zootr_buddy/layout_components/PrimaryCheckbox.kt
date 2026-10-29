@@ -3,6 +3,7 @@ package com.example.zootr_buddy.layout_components
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.example.zootr_buddy.R
 
@@ -23,7 +24,8 @@ class PrimaryCheckbox @JvmOverloads constructor(
     }
 
     fun setText(text: String) {
-        primaryCheckbox.text = text
+        val label = findViewById<TextView>(R.id.primarySwitchLabel)
+        label.text = text
     }
 
     fun setIsChecked(isChecked: Boolean) {

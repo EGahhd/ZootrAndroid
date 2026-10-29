@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -38,6 +39,8 @@ import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import com.example.zootr_buddy.helpers.FileHelper.readExternalJsonFile
 import com.example.zootr_buddy.layout_components.PrimaryCheckbox
+import com.example.zootr_buddy.layout_components.TooltipButton
+import com.example.zootr_buddy.layout_components.findFirstTextView
 import com.example.zootr_buddy.helpers.FileHelper as _files
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -45,6 +48,7 @@ import java.util.UUID
 import GlobalStore as _globalStore
 import com.example.zootr_buddy.layout_components.showToast
 import com.example.zootr_buddy.layout_components.setTextColorBasedOnContrast
+import com.example.zootr_buddy.layout_components.showTooltip
 import com.example.zootr_buddy.layout_components.toggleDisabled
 
 enum class InputTypes(val value: String) {
@@ -411,6 +415,7 @@ class RandoSettings : ComponentActivity() {
         val type = setting["type"].toString()
         val key = setting["key"].toString()
         val guiText = setting["gui_text"].toString()
+        val guiTooltip = setting["gui_tooltip"].toString()
         val currentVal = viewModel.currentSettings?.get(key).toString()
         val settingView: LinearLayout? = when(type) {
             InputTypes.Checkbutton.value -> addCheckButton(key, guiText, currentVal, setting)
@@ -425,6 +430,36 @@ class RandoSettings : ComponentActivity() {
 
         if (settingView != null) {
             settingView.tag = key
+
+            if (guiTooltip != "") {
+                var popupTooltip: PopupWindow? = null
+                val textView = settingView.findFirstTextView()
+                val textViewParent = textView?.parent as? ViewGroup
+
+                if (textViewParent != null) {
+                    val titleLayout = LinearLayout(this).apply {
+                        orientation = LinearLayout.HORIZONTAL
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                    }
+                    val textViewIndex = textViewParent.indexOfChild(textView)
+                    textViewParent.removeView(textView)
+                    titleLayout.addView(textView)
+                    val tooltipButton = titleLayout.TooltipButton()
+                    titleLayout.addView(tooltipButton)
+                    textViewParent.addView(titleLayout, textViewIndex)
+
+                    tooltipButton.setOnClickListener {
+                        popupTooltip = settingView.showTooltip(guiTooltip)
+                        popupTooltip!!.setOnDismissListener {
+                            popupTooltip = null
+                        }
+                    }
+                }
+            }
+
             if (previousKey !== "") {
                 val previousView = settingsPanel.findViewWithTag<View>(previousKey)
                 val previousViewIndex = settingsPanel.indexOfChild(previousView)
@@ -583,7 +618,6 @@ class RandoSettings : ComponentActivity() {
 
         inputLayout.addView(checkBox)
         val i = inputLayout.indexOfChild(checkBox)
-        checkBox.tooltipText = "${checkBox.id} - ${checkBox.tag} - $i"
 
         return inputLayout
     }
@@ -603,8 +637,6 @@ class RandoSettings : ComponentActivity() {
         }
 
         inputLayout.addView(checkBox)
-        val i = inputLayout.indexOfChild(checkBox)
-        checkBox.tooltipText = "${checkBox.id} - ${checkBox.tag} - $i"
 
         return inputLayout
     }

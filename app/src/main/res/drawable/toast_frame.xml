@@ -1,6 +1,68 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <!-- background is material_white with .9 alpha -->
-    <solid android:color="?attr/tooltipBackground" />
-    <corners android:radius="24dp" />
-</shape>
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Drop Shadow Stack -->
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left=".5dp"
+                android:right=".5dp"
+                android:top=".5dp" />
+            <solid android:color="?attr/elevationColor1" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left=".5dp"
+                android:right=".5dp"
+                android:top=".5dp" />
+            <solid android:color="?attr/elevationColor2" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left=".5dp"
+                android:right=".5dp"
+                android:top=".5dp" />
+            <solid android:color="?attr/elevationColor3" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left=".5dp"
+                android:right=".5dp"
+                android:top=".5dp" />
+            <solid android:color="?attr/elevationColor4" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left=".5dp"
+                android:right=".5dp"
+                android:top=".5dp" />
+            <solid android:color="?attr/elevationColor5" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Background -->
+    <item>
+        <shape
+            android:shape="rectangle">
+            <solid android:color="?attr/tooltipBackground" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+</layer-list>
